@@ -128,7 +128,9 @@ export default function LandingPage() {
 
       {/* CALL TO ACTION */}
       <section className="text-center py-16">
-        <h3 className="text-3xl font-bold text-primary">Join CareerAI Today</h3>
+        <h3 className="text-3xl font-bold text-primary">
+          Join MyNextJob Today
+        </h3>
         <Link href="/sign-in">
           <Button
             size="lg"
