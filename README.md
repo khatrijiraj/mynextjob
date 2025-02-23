@@ -1,6 +1,6 @@
-# My Next Job
+# MyNextJob
 
-**My Next Job** is a full-featured Next.js application designed to streamline the job preparation and application process. It provides AI based tools for creating cover letters, resumes, mock interviews, quizzes, and industry insights—all in one platform. Built with modern web technologies, this project offers a robust, scalable, and responsive user experience.
+**MyNextJob** is a full-featured Next.js application designed to streamline the job preparation and application process. It provides AI based tools for creating cover letters, resumes, mock interviews, quizzes, and industry insights—all in one platform. Built with modern web technologies, this project offers a robust, scalable, and responsive user experience.
 
 ---
 
@@ -21,7 +21,7 @@
 
 ## Overview
 
-**My Next Job** is a Next.js project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). It’s structured to support a seamless job search experience—from user authentication to generating personalized job application materials. With its modular file system, the project ensures maintainability and scalability while delivering a clean, user-friendly interface.
+**MyNextJob** is a Next.js project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). It’s structured to support a seamless job search experience—from user authentication to generating personalized job application materials. With its modular file system, the project ensures maintainability and scalability while delivering a clean, user-friendly interface.
 
 ---
 
