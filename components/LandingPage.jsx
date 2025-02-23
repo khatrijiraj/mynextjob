@@ -4,82 +4,112 @@ import { Card } from "@/components/ui/card";
 import {
   CheckCircle,
   Lightbulb,
-  Shield,
-  Users,
+  Mail,
   TrendingUp,
-  FileText,
+  ListTodo,
+  FileUser,
+  Handshake,
+  Sparkle,
   ArrowRight,
 } from "lucide-react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 
 export default function LandingPage() {
   return (
-    <div className="bg-background text-foreground">
-      {/* HERO SECTION */}
-      <section className="text-center py-24 px-6">
-        <h1 className="text-6xl font-extrabold text-primary leading-tight">
-          AI-Powered Career Assistance
-        </h1>
-        <p className="mt-5 text-lg opacity-80 max-w-2xl mx-auto">
-          Land your dream job faster with AI-powered resumes, interview prep,
-          and career guidance.
-        </p>
-        <Link href="/sign-in">
-          <Button
-            size="lg"
-            className="mt-8 px-10 py-4 bg-primary text-primary-foreground">
-            Get Started
-          </Button>
-        </Link>
-      </section>
+    <>
+      <HeroSection />
+      <HowItWorksSection />
+      <BenefitsSection />
+      <TestimonialsSection />
+      <PricingSection />
+      <CTASection />
+    </>
+  );
+}
 
-      {/* HOW IT WORKS */}
-      <section className="py-24 px-6 max-w-5xl mx-auto">
-        <h2 className="text-4xl font-bold text-center text-primary">
+function HeroSection() {
+  return (
+    <section className="py-60 px-6  flex flex-col justify-center items-center">
+      <h1 className="text-5xl text-primary font-extrabold leading-tight text-center">
+        AI-Powered Career Assistance
+      </h1>
+      <p className="mt-6 text-muted-foreground text-lg opacity-90 max-w-2xl text-center">
+        AI-powered platform to land your next job — interviews, resumes, cover
+        letters, quizzes, applications manager, and industry insights, all in
+        one place!
+      </p>
+      <Link href="/sign-in">
+        <Button size="lg" className="mt-8">
+          Get Started
+        </Button>
+      </Link>
+    </section>
+  );
+}
+
+function HowItWorksSection() {
+  return (
+    <section className="py-24 px-6 bg-muted">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-3xl font-bold text-center text-primary mb-12">
           How It Works
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {steps.map((step, index) => (
             <Card
               key={index}
-              className="p-8 text-center bg-card rounded-lg shadow-lg">
+              className="p-8 text-center bg-background  hover:scale-105 transition-transform duration-200">
               <step.icon className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h3 className="text-xl font-semibold">{step.title}</h3>
+              <h3 className="text-xl font-semibold text-foreground">
+                {step.title}
+              </h3>
               <p className="text-muted-foreground mt-2">{step.description}</p>
             </Card>
           ))}
         </div>
-      </section>
+      </div>
+    </section>
+  );
+}
 
-      {/* BENEFITS SECTION */}
-      <section className="bg-secondary py-24 text-center px-6">
-        <h2 className="text-4xl font-bold text-primary">
+function BenefitsSection() {
+  return (
+    <section className="py-24 px-6 bg-background">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-3xl font-bold text-center text-primary mb-12">
           Why Choose CareerAI?
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mt-12 px-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {benefits.map((benefit, index) => (
-            <Card key={index} className="p-8 bg-card rounded-lg shadow-lg">
+            <Card
+              key={index}
+              className="p-8 bg-muted hover:scale-105 transition-transform duration-200">
               <benefit.icon className="w-14 h-14 text-primary mb-4 mx-auto" />
-              <h3 className="text-xl font-semibold">{benefit.title}</h3>
+              <h3 className="text-xl font-semibold text-foreground">
+                {benefit.title}
+              </h3>
               <p className="text-muted-foreground mt-2">
                 {benefit.description}
               </p>
             </Card>
           ))}
         </div>
-      </section>
+      </div>
+    </section>
+  );
+}
 
-      {/* SUCCESS STORIES */}
-      <section className="py-24 px-6 text-center">
-        <h2 className="text-4xl font-bold text-primary">Success Stories</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mt-12">
+function TestimonialsSection() {
+  return (
+    <section className="py-24 px-6 bg-muted">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-3xl font-bold text-center text-primary mb-12">
+          Success Stories
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
-            <Card key={index} className="p-8 bg-card rounded-lg shadow-md">
+            <Card
+              key={index}
+              className="p-8 bg-background rounded-lg shadow-md hover:scale-105 transition-transform duration-200">
               <p className="text-lg italic text-muted-foreground">
                 “{testimonial.feedback}”
               </p>
@@ -89,61 +119,66 @@ export default function LandingPage() {
             </Card>
           ))}
         </div>
-      </section>
+      </div>
+    </section>
+  );
+}
 
-      {/* PRICING SECTION */}
-      <section className="bg-primary text-primary-foreground text-center py-24">
-        <h2 className="text-4xl font-bold">Pricing Plans</h2>
-        <p className="mt-3 text-lg opacity-90">
+function PricingSection() {
+  return (
+    <section className="py-24 bg-background">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-3xl font-bold text-center text-primary mb-6">
+          Pricing Plans
+        </h2>
+        <p className="mt-3 text-lg opacity-90 text-center text-muted-foreground mb-12">
           Choose the plan that fits your needs.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto mt-12 px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-6">
           {pricingPlans.map((plan, index) => (
             <Card
               key={index}
-              className="p-6 bg-background text-primary rounded-lg shadow-lg">
-              <h3 className="text-2xl font-bold">{plan.title}</h3>
+              className="p-6 bg-muted hover:scale-105 transition-transform duration-200">
+              <h3 className="text-xl font-medium text-foreground mb-2">
+                {plan.title}
+              </h3>
               <p className="mt-2 text-muted-foreground">{plan.price}</p>
               <ul className="mt-4 text-left space-y-2">
                 {plan.features.map((feature, idx) => (
                   <li
                     key={idx}
                     className="flex items-center gap-2 text-muted-foreground">
-                    <CheckCircle className="w-5 h-5 text-green-500" />
+                    <CheckCircle className="w-5 h-5 text-green-500 dark:text-green-400" />
                     {feature}
                   </li>
                 ))}
               </ul>
               <Link href="/sign-in">
-                <Button
-                  size="lg"
-                  className="w-full mt-6 bg-primary text-primary-foreground">
+                <Button size="lg" className="w-full mt-6">
                   Get Started
                 </Button>
               </Link>
             </Card>
           ))}
         </div>
-      </section>
-
-      {/* CALL TO ACTION */}
-      <section className="text-center py-16">
-        <h3 className="text-3xl font-bold text-primary">
-          Join MyNextJob Today
-        </h3>
-        <Link href="/sign-in">
-          <Button
-            size="lg"
-            className="mt-6 bg-primary text-primary-foreground px-10 py-4">
-            Get Started
-          </Button>
-        </Link>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }
 
-// Step-by-Step Process
+function CTASection() {
+  return (
+    <section className="py-36 flex flex-col justify-center items-center text-white bg-muted">
+      <h3 className="text-3xl font-bold mb-6 text-center text-primary z-10">
+        Join MyNextJob Today!
+      </h3>
+      <Link href="/sign-in" className="z-10">
+        <Button size="lg">Get Started</Button>
+      </Link>
+    </section>
+  );
+}
+// Data Arrays
 const steps = [
   {
     title: "1. Get AI Insights",
@@ -159,75 +194,68 @@ const steps = [
   },
   {
     title: "3. Apply & Succeed",
-    description: "Land interviews and secure your dream job!",
+    description: "Apply to jobs and secure your dream job!",
     icon: ArrowRight,
   },
 ];
 
-// Benefits Section
 const benefits = [
   {
     title: "AI Resume Builder",
-    description: "Stand out with AI-powered resume improvements.",
-    icon: TrendingUp,
+    description:
+      "Create a polished and professional resume with AI-driven enhancements.",
+    icon: FileUser,
   },
   {
     title: "AI Industry Insights",
-    description: "Get job recommendations based on your skills.",
-    icon: Users,
+    description:
+      "Discover tailored job opportunities and industry trends based on your skills.",
+    icon: TrendingUp,
   },
   {
     title: "AI Mock Interviews",
-    description: "Get job recommendations based on your skills.",
-    icon: Users,
+    description:
+      "Practice with AI-driven interview simulations to boost your confidence.",
+    icon: Handshake,
   },
   {
     title: "AI Cover Letter Generator",
-    description: "Get job recommendations based on your skills.",
-    icon: Users,
+    description:
+      "Craft compelling cover letters that make a lasting impression.",
+    icon: Mail,
   },
   {
-    title: "Manage your job applications",
-    description: "Get job recommendations based on your skills.",
-    icon: Users,
+    title: "Manage Your Job Applications",
+    description:
+      "Track and organize your job applications effortlessly in one place.",
+    icon: ListTodo,
   },
   {
-    title: "Check your resume ATS Score",
-    description: "Get job recommendations based on your skills.",
-    icon: Users,
-  },
-  {
-    title: "AI based mock quizzes",
-    description: "Get job recommendations based on your skills.",
-    icon: Users,
-  },
-  {
-    title: "Secure & Private",
-    description: "Your data is encrypted and never shared.",
-    icon: Shield,
+    title: "AI Mock Quizzes",
+    description:
+      "Sharpen your skills with AI-generated quizzes tailored to your field.",
+    icon: Sparkle,
   },
 ];
 
-// Testimonials
 const testimonials = [
   {
-    name: "Sarah Johnson",
+    name: "John Doe",
     role: "Software Engineer",
-    feedback: "It helped me land a job at Amazon!",
+    feedback: "It helped me land a job at my dream company!",
   },
   {
-    name: "Mark Lee",
+    name: "Jane Smith",
     role: "Product Manager",
     feedback: "AI-powered interviews gave me an edge in my applications.",
   },
   {
-    name: "Emma Davis",
-    role: "Data Scientist",
+    name: "Alice Johnson",
+    role: "Data Analyst",
     feedback: "Best investment I made for my career!",
   },
 ];
 
-// Pricing Plans
 const pricingPlans = [
   {
     title: "Free Plan",

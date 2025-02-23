@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="container py-12 bg-background text-foreground">
+    <footer className="container py-12 text-foreground">
       <div className="container mx-auto px-6">
         {/* Main footer content */}
         <div className="text-center mb-8">
@@ -39,7 +39,7 @@ const Footer = () => {
         {/* Social media icons */}
         <div className="flex justify-center space-x-6 mb-8">
           <a
-            href="https://github.com/khatrijiraj"
+            href="https://github.com/khatrijiraj/mynextjob"
             target="_blank"
             rel="noopener noreferrer">
             <Github className="text-muted-foreground" size={24} />
