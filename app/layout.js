@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Footer from "@/components/Footer";
 import { ClerkThemeProvider } from "@/components/clerk-theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import AppLoader from "@/components/AppLoader";
 
 export const metadata = {
   title: "mynextjob",
@@ -31,11 +32,12 @@ export default function RootLayout({ children }) {
           disableTransitionOnChange>
           <ClerkThemeProvider>
             {/* Fixed header */}
-            <Header />
-            <main>{children}</main>
-            <Footer />
-
-            <Toaster richColors />
+            <AppLoader>
+              <Header />
+              <main>{children}</main>
+              <Footer />
+              <Toaster richColors />
+            </AppLoader>
           </ClerkThemeProvider>
         </ThemeProvider>
       </body>

@@ -33,6 +33,7 @@ const Header = async () => {
 
       <div className="flex gap-6 items-center">
         <SignedOut>
+          <ModeToggle />
           <Link href="/sign-in">
             <Button className="items-center">
               <Mail />
@@ -99,17 +100,19 @@ const Header = async () => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+
+          <ModeToggle />
+
+          <UserButton
+            appearance={{
+              elements: {
+                avatarBox: "w-8 h-8",
+                userButtonPopoverCard: "shadow-xl",
+                userPreviewMainIdentifier: "font-semibold text-purple-600",
+              },
+            }}
+          />
         </SignedIn>
-        <ModeToggle />
-        <UserButton
-          appearance={{
-            elements: {
-              avatarBox: "w-8 h-8",
-              userButtonPopoverCard: "shadow-xl",
-              userPreviewMainIdentifier: "font-semibold text-purple-600",
-            },
-          }}
-        />
       </div>
     </header>
   );
