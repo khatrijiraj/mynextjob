@@ -7,7 +7,7 @@ import { Mic } from "lucide-react";
 
 export default function SpeechRecorder({ onAnswer }) {
   const { error, isRecording, results, startSpeechToText, stopSpeechToText } =
-    useSpeechToText({ continuous: true });
+    useSpeechToText({ continuous: false });
 
   useEffect(() => {
     if (!isRecording && results.length > 0) {
