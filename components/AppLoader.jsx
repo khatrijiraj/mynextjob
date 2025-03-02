@@ -1,16 +1,24 @@
-// components/AppLoader.js
 "use client";
 import { Loader2 } from "lucide-react";
 import { useAuth } from "@clerk/nextjs";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function AppLoader({ children }) {
   const { isLoaded } = useAuth();
+  const pathname = usePathname();
+  const [loading, setLoading] = useState(false);
 
-  if (!isLoaded) {
-    // Render a full-page loader to cover header, main, and footer
+  useEffect(() => {
+    setLoading(true);
+    const timeout = setTimeout(() => setLoading(false), 500); // Simulate loading delay
+    return () => clearTimeout(timeout);
+  }, [pathname]); // Re-run on route change
+
+  if (!isLoaded || loading) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
-        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        <Loader2 className="mr-2 h-6 w-6 animate-spin" />
         <p>Loading...</p>
       </div>
     );

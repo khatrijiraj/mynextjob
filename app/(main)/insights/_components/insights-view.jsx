@@ -37,7 +37,27 @@ const InsightsView = ({ insights }) => {
     median: range.median,
   }));
 
-  const CustomTick = ({ x, y, payload }) => {
+  const formatToLacs = (value) => {
+    const lacs = value / 100000;
+    return lacs % 1 === 0 ? `${lacs} L` : `${lacs.toFixed(1)}L`;
+  };
+
+  const CustomYTick = ({ x, y, payload }) => {
+    const isMobile = window.innerWidth < 768; // Detect mobile view
+    return (
+      <text
+        x={x}
+        y={y}
+        textAnchor="end"
+        fontSize={isMobile ? 9 : 16}
+        fill="black">
+        {/* {new Intl.NumberFormat("en-IN").format(payload.value)} */}
+        {formatToLacs(payload.value)}
+      </text>
+    );
+  };
+
+  const CustomXTick = ({ x, y, payload }) => {
     const words = payload.value.split(" ");
     const isMobile = window.innerWidth < 768; // Detect mobile view
 
@@ -46,8 +66,8 @@ const InsightsView = ({ insights }) => {
         x={x}
         y={y}
         textAnchor="middle"
-        fontSize={isMobile ? 8 : 16}
-        fill="gray">
+        fontSize={isMobile ? 9 : 16}
+        fill="black">
         {words.map((word, index) => (
           <tspan
             x={x}
@@ -167,31 +187,41 @@ const InsightsView = ({ insights }) => {
       </div>
 
       {/* Salary Ranges Chart */}
-      <Card className="col-span-4">
+      <Card>
         <CardHeader>
           <CardTitle>Salary Ranges by Role</CardTitle>
           <CardDescription>
             Displaying minimum, median, and maximum salaries (in INR)
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="h-[600px]">
+        <CardContent className="px-4">
+          <div className="h-[500px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={salaryData}
-                margin={{ top: 30, right: 15, left: 15, bottom: 30 }}>
-                <CartesianGrid strokeDasharray="2 2" vertical={false} />
+                // Remove or reduce left margin
+                margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
+                {/* Reduce visual clutter by hiding extra lines */}
+                <CartesianGrid strokeDasharray="3 " vertical={false} />
+
                 <XAxis
                   dataKey="name"
-                  tick={<CustomTick />}
-                  tickMargin={true}
+                  tick={<CustomXTick />} // or let Recharts handle the default
+                  tickMargin={5}
                   interval={0}
                 />
 
                 <YAxis
+                  // Set a smaller width to reduce space on the left
+                  width={45}
+                  // If you want to keep your custom tick:
+                  tick={<CustomYTick />}
                   tickFormatter={(value) =>
                     new Intl.NumberFormat("en-IN").format(value)
                   }
+                  domain={[0, "auto"]}
+                  tickCount={7}
+                  allowDecimals={false}
                 />
 
                 <Tooltip
