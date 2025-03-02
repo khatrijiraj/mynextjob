@@ -2,6 +2,7 @@ import React from "react";
 import OnboardingForm from "./_components/OnboardingForm";
 import { getUserOnboardingStatus } from "@/actions/user";
 import { redirect } from "next/navigation";
+import { industries } from "@/data/industries";
 
 const page = async () => {
   //check if user already onboarded
@@ -13,7 +14,7 @@ const page = async () => {
     <main>
       <OnboardingForm industries={industries} />
     </main>
-  );
+  )
 };
 
 export default page;

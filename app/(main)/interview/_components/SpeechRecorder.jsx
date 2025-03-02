@@ -20,14 +20,14 @@ export default function SpeechRecorder({ onAnswer }) {
     <div className="space-y-4">
       <Button
         onClick={isRecording ? stopSpeechToText : startSpeechToText}
-        variant={isRecording ? "destructive" : "secondary"}
+        variant={isRecording ? "destructive" : "outline"}
         className={`w-full ${isRecording ? "animate-pulse" : ""}`}>
         <Mic className="mr-2 h-4 w-4" />
         {isRecording ? "Stop Recording" : "Record Answer"}
       </Button>
       {error && <p className="text-destructive">Error: {error}</p>}
       <p className="p-4 bg-muted rounded-md text-muted-foreground">
-        <h3 className="font-medium">Your Answer: </h3>
+        <p className="font-medium">Your Answer: </p>
         {results.length > 0
           ? results.join(" ")
           : "Your answer will appear here..."}

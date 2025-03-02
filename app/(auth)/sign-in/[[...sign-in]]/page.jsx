@@ -141,9 +141,6 @@ export default function SignInPage() {
                   <Card className="w-full sm:w-96">
                     <CardHeader>
                       <CardTitle>Check your email</CardTitle>
-                      <CardDescription>
-                        Enter the verification code sent to your email
-                      </CardDescription>
                       <p className="text-sm text-muted-foreground">
                         Welcome back <SignIn.SafeIdentifier />
                       </p>

@@ -159,12 +159,12 @@ export default function Interview() {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <p className="text-lg font-medium">
-          {interviewData[currentQuestion].question}
-        </p>
         <div>
           <Webcam className="w-full max-w-sm border rounded" />
         </div>
+        <p className="text-lg font-medium">
+          {interviewData[currentQuestion].question}
+        </p>
         {/* The key forces a remount each time the question changes */}
         <SpeechRecorder
           key={currentQuestion}

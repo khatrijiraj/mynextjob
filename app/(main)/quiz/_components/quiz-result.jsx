@@ -5,11 +5,7 @@ import { Button } from "@/components/ui/button";
 import { CardContent, CardFooter } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 
-export default function QuizResult({
-  result,
-  hideStartNew = false,
-  onStartNew,
-}) {
+export default function QuizResult({ result }) {
   if (!result) return null;
 
   return (
@@ -74,14 +70,6 @@ export default function QuizResult({
           ))}
         </div>
       </CardContent>
-
-      {!hideStartNew && (
-        <CardFooter>
-          <Button onClick={onStartNew} className="w-full">
-            Start New Quiz
-          </Button>
-        </CardFooter>
-      )}
     </div>
   );
 }

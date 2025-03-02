@@ -75,6 +75,7 @@ export async function getUserOnboardingStatus() {
     where: { clerkUserId: userId },
   });
 
+  // if (!user) throw new Error("User not found");
   if (!user) throw new Error("User not found");
 
   try {
