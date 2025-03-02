@@ -42,15 +42,6 @@ const Header = async () => {
         </SignedOut>
 
         <SignedIn>
-          <UserButton
-            appearance={{
-              elements: {
-                avatarBox: "w-8 h-8",
-                userButtonPopoverCard: "shadow-xl",
-                userPreviewMainIdentifier: "font-semibold text-purple-600",
-              },
-            }}
-          />
           <DropdownMenu className="cursor-pointer">
             <DropdownMenuTrigger asChild>
               <Button className="relative inline-flex h-auto overflow-hidden rounded-full p-1">
@@ -110,6 +101,15 @@ const Header = async () => {
           </DropdownMenu>
         </SignedIn>
         <ModeToggle />
+        <UserButton
+          appearance={{
+            elements: {
+              avatarBox: "w-8 h-8",
+              userButtonPopoverCard: "shadow-xl",
+              userPreviewMainIdentifier: "font-semibold text-purple-600",
+            },
+          }}
+        />
       </div>
     </header>
   );
