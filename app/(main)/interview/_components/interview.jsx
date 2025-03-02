@@ -1,185 +1,192 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { Icons } from "@/components/ui/icons";
+import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { generateInterview, saveInterviewResult } from "@/actions/interview";
-import InterviewResult from "./interview-result";
 import useFetch from "@/hooks/use-fetch";
-import { BarLoader } from "react-spinners";
+import { interviewSchema } from "@/app/lib/schema";
+import Webcam from "react-webcam";
+import SpeechRecorder from "./SpeechRecorder";
+import InterviewResult from "./interview-result"; // Import the InterviewResult component
 
 export default function Interview() {
+  const [interviewStarted, setInterviewStarted] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
-  const [showExplanation, setShowExplanation] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(interviewSchema),
+  });
 
   const {
     loading: generatingInterview,
     fn: generateInterviewFn,
     data: interviewData,
   } = useFetch(generateInterview);
-
   const {
     loading: savingResult,
     fn: saveInterviewResultFn,
     data: resultData,
-    setData: setResultData,
   } = useFetch(saveInterviewResult);
-
-  useEffect(() => {
-    if (interviewData) {
-      setAnswers(new Array(interviewData.length).fill(null));
-    }
-  }, [interviewData]);
-
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.key === "Enter" && answers[currentQuestion]) {
-        handleNext();
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [currentQuestion, answers]);
-
-  const handleAnswer = (answer) => {
-    const newAnswers = [...answers];
-    newAnswers[currentQuestion] = answer;
-    setAnswers(newAnswers);
-  };
 
   const handleNext = () => {
     if (currentQuestion < interviewData.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
-      setShowExplanation(false);
     } else {
       finishInterview();
     }
   };
 
-  const calculateScore = () => {
-    let correct = 0;
-    answers.forEach((answer, index) => {
-      if (answer === interviewData[index].correctAnswer) {
-        correct++;
-      }
-    });
-    return (correct / interviewData.length) * 100;
-  };
-
   const finishInterview = async () => {
-    const score = calculateScore();
+    setIsSubmitting(true);
     try {
-      await saveInterviewResultFn(interviewData, answers, score);
+      await saveInterviewResultFn(interviewData, answers);
       toast.success("Interview completed!");
+      // Optionally, you can keep isSubmitting true to disable further actions
     } catch (error) {
       toast.error(error.message || "Failed to save interview results");
+      setIsSubmitting(false); // re-enable if error occurs
     }
   };
 
-  const startNewInterview = () => {
-    setCurrentQuestion(0);
-    setAnswers([]);
-    setShowExplanation(false);
-    generateInterviewFn();
-    setResultData(null);
+  const onSubmit = async (data) => {
+    try {
+      await generateInterviewFn(data);
+      setInterviewStarted(true);
+    } catch (error) {
+      toast.error(error.message || "Failed to generate interview");
+    }
   };
 
-  if (generatingInterview) {
-    return <BarLoader className="mt-4" width={"100%"} color="gray" />;
-  }
-
-  // Show results if interview is completed
+  // If the interview is complete and resultData is available, display the results
   if (resultData) {
     return (
-      <div className="mx-2">
-        <InterviewResult result={resultData} onStartNew={startNewInterview} />
-      </div>
+      <InterviewResult
+        result={resultData}
+        onStartNew={() => {
+          // Reset states to start a new interview if needed
+          setInterviewStarted(false);
+          setCurrentQuestion(0);
+          setAnswers([]);
+        }}
+      />
     );
   }
 
-  if (!interviewData) {
+  if (!interviewStarted) {
     return (
-      <Card className="mx-2">
+      <Card>
         <CardHeader>
-          <CardTitle>Ready to test your knowledge?</CardTitle>
+          <CardTitle>Enter Job Details</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-muted-foreground">
-            Practice 10 interview questions specific to your job description and
-            role. Take your time and give the best answer for each question.
-          </p>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div className="space-y-2">
+              <Label>Job Title</Label>
+              <Input {...register("position")} placeholder="Enter job title" />
+              {errors.position && (
+                <p className="text-sm text-destructive">
+                  {errors.position.message}
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label>Job Description</Label>
+              <Textarea
+                {...register("description")}
+                placeholder="Enter job description"
+              />
+              {errors.description && (
+                <p className="text-sm text-destructive">
+                  {errors.description.message}
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label>Years of Experience</Label>
+              <Input
+                {...register("experience")}
+                type="number"
+                placeholder="Enter years of experience"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label>Tech Stack</Label>
+              <Input
+                {...register("techStack")}
+                placeholder="Enter technologies (comma-separated)"
+              />
+            </div>
+
+            <Button
+              type="submit"
+              disabled={generatingInterview}
+              className="w-full">
+              {generatingInterview ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                "Start Interview"
+              )}
+            </Button>
+          </form>
         </CardContent>
-        <CardFooter>
-          <Button onClick={generateInterviewFn} size="lg" className="w-full">
-            Start Interview
-          </Button>
-        </CardFooter>
       </Card>
     );
   }
 
-  const question = interviewData[currentQuestion];
-
+  // Render the current interview question
   return (
-    <Card className="mx-2">
+    <Card className="space-y-4">
       <CardHeader>
         <CardTitle>
           Question {currentQuestion + 1} of {interviewData.length}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <p className="text-lg font-medium">{question.question}</p>
-        <RadioGroup
-          onValueChange={handleAnswer}
-          value={answers[currentQuestion]}
-          className="space-y-2">
-          {question.options.map((option, index) => (
-            <div key={index} className="flex items-center space-x-2">
-              <RadioGroupItem value={option} id={`option-${index}`} />
-              <Label htmlFor={`option-${index}`}>{option}</Label>
-            </div>
-          ))}
-        </RadioGroup>
-      </CardContent>
-      <CardFooter className="flex flex-col gap-6 items-start">
+        <p className="text-lg font-medium">
+          {interviewData[currentQuestion].question}
+        </p>
+        <div>
+          <Webcam className="w-full max-w-sm border rounded" />
+        </div>
+        {/* The key forces a remount each time the question changes */}
+        <SpeechRecorder
+          key={currentQuestion}
+          onAnswer={(answer) => {
+            const newAnswers = [...answers];
+            newAnswers[currentQuestion] = answer;
+            setAnswers(newAnswers);
+          }}
+        />
         <Button
-          className="w-full"
           onClick={handleNext}
-          disabled={!answers[currentQuestion] || savingResult}>
-          {savingResult && <Icons.spinner className="size-4 animate-spin" />}
-          {currentQuestion < interviewData.length - 1
-            ? "Next Question"
-            : "Finish Interview"}
+          disabled={!answers[currentQuestion] || isSubmitting}
+          className="w-full">
+          {currentQuestion < interviewData.length - 1 ? (
+            "Next Question"
+          ) : isSubmitting ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            "Finish Interview"
+          )}
         </Button>
-
-        {!showExplanation && (
-          <Button
-            className="w-full"
-            onClick={() => setShowExplanation(true)}
-            variant="outline"
-            disabled={!answers[currentQuestion]}>
-            Show Explanation
-          </Button>
-        )}
-        {showExplanation && (
-          <div className="p-4 bg-muted rounded-lg w-full">
-            <p className="font-medium">Explanation:</p>
-            <p className="text-muted-foreground">{question.explanation}</p>
-          </div>
-        )}
-      </CardFooter>
+      </CardContent>
     </Card>
   );
 }

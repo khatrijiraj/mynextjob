@@ -7,35 +7,27 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
-export async function generateInterview() {
+export async function generateInterview(data) {
   const { userId } = await auth();
   if (!userId) throw new Error("Unauthorized");
 
-  const user = await db.user.findUnique({
-    where: { clerkUserId: userId },
-    select: {
-      industry: true,
-      skills: true,
-    },
-  });
-
-  if (!user) throw new Error("User not found");
-
   const prompt = `
-    Generate 10 technical interview questions for a ${
-      user.industry
-    } professional${
-    user.skills?.length ? ` with expertise in ${user.skills.join(", ")}` : ""
-  }.
-    
-    Each question should be multiple choice with 4 options.
-    
+    Generate 5 open-ended technical interview questions along with ideal answer explanations 
+    based on the following job details:
+
+    - Job Position: ${data?.position}
+    - Job Description: ${data?.description}
+    - Years of Experience Required: ${data?.experience}
+    - Tech Stacks: ${data?.techStack}
+
+    The questions should assess problem-solving, design thinking, and real-world application 
+    in ${data?.techStack} development.
+
     Return the response in this JSON format only, no additional text:
     {
       "questions": [
         {
           "question": "string",
-          "options": ["string", "string", "string", "string"],
           "correctAnswer": "string",
           "explanation": "string"
         }
@@ -46,9 +38,17 @@ export async function generateInterview() {
   try {
     const result = await model.generateContent(prompt);
     const response = result.response;
-    const text = response.text();
+
+    // Await the text() call to get a string result
+    const text = await response.text();
+
     const cleanedText = text.replace(/```(?:json)?\n?/g, "").trim();
     const interview = JSON.parse(cleanedText);
+
+    if (!cleanedText.startsWith("{")) {
+      console.error("Cleaned response is not valid JSON:", cleanedText);
+      throw new Error("API did not return valid JSON");
+    }
 
     return interview.questions;
   } catch (error) {
@@ -57,7 +57,7 @@ export async function generateInterview() {
   }
 }
 
-export async function saveInterviewResult(questions, answers, score) {
+export async function saveInterviewResult(questions, answers) {
   const { userId } = await auth();
   if (!userId) throw new Error("Unauthorized");
 
@@ -67,18 +67,62 @@ export async function saveInterviewResult(questions, answers, score) {
 
   if (!user) throw new Error("User not found");
 
-  const questionResults = questions.map((q, index) => ({
-    question: q.question,
-    answer: q.correctAnswer,
-    userAnswer: answers[index],
-    isCorrect: q.correctAnswer === answers[index],
-    explanation: q.explanation,
-  }));
+  let totalScore = 0;
+
+  async function evaluateAnswer(question, correctAnswer, userAnswer) {
+    const evaluatePrompt = `
+      Question: "${question}"
+      Ideal Answer: "${correctAnswer}"
+      User Answer: "${userAnswer}"
+
+      Return a JSON object with a score from 0 to 10, where:
+    - 10 means a perfect answer.
+    - 0 means completely incorrect.
+
+    Ensure the response follows this exact format:
+    {
+      "score": number
+    }
+    `;
+
+    try {
+      const result = await model.generateContent(evaluatePrompt);
+      // Await the text() call here as well
+      const text = result.response.text();
+      const cleanedText = text.replace(/```(?:json)?\n?/g, "").trim();
+
+      const parsed = JSON.parse(cleanedText);
+      return Math.max(0, Math.min(10, parsed.score));
+    } catch (error) {
+      console.error("Error evaluating answer: ", error);
+      return 0;
+    }
+  }
+
+  // Evaluate all answers asynchronously
+  const evaluatedAnswers = await Promise.all(
+    questions.map(async (q, index) => {
+      const score = await evaluateAnswer(
+        q.question,
+        q.correctAnswer,
+        answers[index]
+      );
+
+      totalScore += score; // Accumulate total score // Increment score for correct answers
+
+      return {
+        question: q.question,
+        answer: q.correctAnswer,
+        userAnswer: answers[index],
+        score,
+        explanation: q.explanation,
+      };
+    })
+  );
 
   // Get wrong answers
-  const wrongAnswers = questionResults.filter((q) => !q.isCorrect);
+  const wrongAnswers = evaluatedAnswers.filter((q) => !q.isCorrect);
 
-  // Only generate improvement tips if there are wrong answers
   let improvementTip = null;
   if (wrongAnswers.length > 0) {
     const wrongQuestionsText = wrongAnswers
@@ -89,24 +133,20 @@ export async function saveInterviewResult(questions, answers, score) {
       .join("\n\n");
 
     const improvementPrompt = `
-      The user got the following ${user.industry} technical interview questions wrong:
+      The user got the following technical interview questions wrong:
 
       ${wrongQuestionsText}
 
       Based on these mistakes, provide a concise, specific improvement tip.
-      Focus on the knowledge gaps revealed by these wrong answers.
-      Keep the response under 2 sentences and make it encouraging.
-      Don't explicitly mention the mistakes, instead focus on what to learn/practice.
+      Keep the response under 2 sentences.
     `;
 
     try {
       const tipResult = await model.generateContent(improvementPrompt);
-
-      improvementTip = tipResult.response.text().trim();
-      console.log(improvementTip);
+      improvementTip = await tipResult.response.text();
+      improvementTip = improvementTip.trim();
     } catch (error) {
       console.error("Error generating improvement tip:", error);
-      // Continue without improvement tip if generation fails
     }
   }
 
@@ -114,8 +154,8 @@ export async function saveInterviewResult(questions, answers, score) {
     const interview = await db.interview.create({
       data: {
         userId: user.id,
-        interviewScore: score,
-        questions: questionResults,
+        interviewScore: totalScore,
+        questions: evaluatedAnswers,
         category: "Technical",
         improvementTip,
       },

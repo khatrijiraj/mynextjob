@@ -51,10 +51,21 @@ export default function QuizResult({
                   <XCircle className="h-5 w-5 text-destructive flex-shrink-0" />
                 )}
               </div>
-              <div className="text-sm text-muted-foreground">
-                <p>Your answer: {q.userAnswer}</p>
-                {!q.isCorrect && <p>Correct answer: {q.answer}</p>}
+              <div
+                className={`text-sm p-2 rounded ${
+                  q.isCorrect
+                    ? "bg-green-100 dark:bg-green-950"
+                    : "bg-destructive/20"
+                }`}>
+                <p className="font-medium">Your answer:</p>
+                <p>{q.userAnswer}</p>
               </div>
+              {!q.isCorrect && (
+                <div className="text-sm bg-green-100 dark:bg-green-950 p-2 rounded">
+                  <p className="font-medium">Correct answer:</p>
+                  <p>{q.answer}</p>
+                </div>
+              )}
               <div className="text-sm bg-muted p-2 rounded">
                 <p className="font-medium">Explanation:</p>
                 <p>{q.explanation}</p>

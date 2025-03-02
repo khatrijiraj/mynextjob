@@ -38,7 +38,9 @@ export default function InterviewList({ interviews }) {
               </CardDescription>
             </div>
             <Button
-              onClick={() => router.push("/interview/mock")}
+              onClick={() => {
+                router.push("/interview/mock");
+              }}
               className=" w-48 h-10">
               Start New Interview
             </Button>
@@ -51,7 +53,7 @@ export default function InterviewList({ interviews }) {
               .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
               .map((interview, i) => (
                 <Card
-                  key={interviews.id}
+                  key={interview.id}
                   className="cursor-pointer hover:bg-muted/50 transition-colors"
                   onClick={() => setSelectedInterview(interview)}>
                   <CardHeader>
@@ -64,9 +66,7 @@ export default function InterviewList({ interviews }) {
                       )}
                     </CardTitle>
                     <CardDescription className="flex justify-between w-full">
-                      <div>
-                        Grades: {interview.interviewScore.toFixed(1)}%
-                      </div>
+                      <div>Grades: {interview.interviewScore.toFixed(1)}%</div>
                     </CardDescription>
                   </CardHeader>
                   {interview.improvementTip && (
