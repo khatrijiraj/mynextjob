@@ -26,7 +26,7 @@ const CustomXTick = ({ x, y, payload }) => {
       x={x}
       y={y + (isMobile ? 8 : 16)}
       textAnchor="middle"
-      fill="black"
+      fill="hsl(var(--foreground))"
       fontSize={isMobile ? 8 : 16}>
       {payload.value}
     </text>
@@ -40,7 +40,7 @@ const CustomYTick = ({ x, y, payload }) => {
       x={x}
       y={y}
       textAnchor="end"
-      fill="black"
+      fill="hsl(var(--foreground))"
       fontSize={isMobile ? 8 : 16}>
       {payload.value}%
     </text>

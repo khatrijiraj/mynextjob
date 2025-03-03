@@ -50,7 +50,7 @@ const InsightsView = ({ insights }) => {
         y={y}
         textAnchor="end"
         fontSize={isMobile ? 9 : 16}
-        fill="black">
+        fill="hsl(var(--foreground))">
         {/* {new Intl.NumberFormat("en-IN").format(payload.value)} */}
         {formatToLacs(payload.value)}
       </text>
@@ -67,7 +67,7 @@ const InsightsView = ({ insights }) => {
         y={y}
         textAnchor="middle"
         fontSize={isMobile ? 9 : 16}
-        fill="black">
+        fill="hsl(var(--foreground))">
         {words.map((word, index) => (
           <tspan
             x={x}
