@@ -18,7 +18,7 @@ const menuItems = [
   { href: "/quiz", icon: GalleryThumbnails, label: "AI Mock Quiz" },
   { href: "/cover", icon: MailCheck, label: "AI Cover Letter" },
   { href: "/resume", icon: FileCode2, label: "AI Resume Builder" },
-  { href: "/applications", icon: ListChecks, label: "Application Manager" },
+  { href: "/applications", icon: ListChecks, label: "Job Application Manager" },
 ];
 
 const MenuItems = () => {

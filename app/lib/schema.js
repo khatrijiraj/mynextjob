@@ -85,3 +85,17 @@ export const interviewSchema = z.object({
     ),
   techStack: z.string().min(1, "Tech stack is required"),
 });
+
+export const jobApplicationSchema = z.object({
+  companyName: z.string().min(1, "Company Name is required"),
+  jobRole: z.string().min(1, "Job Role is required"),
+  jobDescription: z.string().min(1, "Job Description is required"),
+  status: z.enum(["APPLIED", "INTERVIEW_SCHEDULED", "OFFERED", "REJECTED"]),
+  contactName: z.string().min(1, "Contact Person Name is required"),
+  contactInfo: z.string().min(1, "Contact Info is required"),
+  salary: z.coerce.number().optional(),
+  appliedDate: z.string().min(1, "Applied Date is required"),
+  // For file inputs, you can validate further if needed.
+  resume: z.any().optional(),
+  userNote: z.string().optional(),
+});
