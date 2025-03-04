@@ -10,10 +10,12 @@ export default async function CoverLetterPage() {
   return (
     <div className="container px-5">
       <div className="flex flex-col md:flex-row gap-2 items-start md:items-center justify-between mb-5">
-        <h1 className="text-6xl font-bold text-primary">My Cover Letters</h1>
+        <h1 className="text-6xl font-bold text-primary mb-4">
+          AI Cover Letter
+        </h1>
         <Link href="/cover/new">
           <Button>
-            <Plus className="h-4 w-4 mr-2" />
+            <Plus />
             Create New
           </Button>
         </Link>

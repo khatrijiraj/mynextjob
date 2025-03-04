@@ -22,6 +22,14 @@ import {
   TableCell,
   TableFooter,
 } from "@/components/ui/table";
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -107,9 +115,14 @@ export default function JobApplicationList({ applications }) {
 
   if (!applications?.length) {
     return (
-      <div className="p-4 border rounded bg-muted text-foreground">
-        <p>No job applications submitted yet.</p>
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>No Job Applications Yet</CardTitle>
+          <CardDescription>
+            Create your first job application to get started
+          </CardDescription>
+        </CardHeader>
+      </Card>
     );
   }
 

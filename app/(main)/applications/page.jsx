@@ -10,16 +10,18 @@ export default async function JobApplicationsPage() {
 
   return (
     <div className="container px-5">
-      <div className="flex flex-col gap-6">
-        <h1 className="text-6xl font-bold text-primary">Job Applications</h1>
+      <div className="flex flex-col md:flex-row gap-2 items-start md:items-center justify-between mb-5">
+        <h1 className="text-6xl font-bold text-primary mb-4">
+          Job Applications
+        </h1>
         <Link href="/applications/new">
           <Button>
             <Plus />
             Create New
           </Button>
         </Link>
-        <JobApplicationList applications={applications} />
       </div>
+      <JobApplicationList applications={applications} />
     </div>
   );
 }

@@ -17,7 +17,10 @@ const Header = async () => {
   await checkUser();
   return (
     <header className="bg-background container flex justify-between items-center px-4 h-16 fixed top-0 w-full border-b z-50 shadow-md">
-      <Link href="/" className="text-xl font-black text-primary ">
+      <Link
+        href="/"
+        reloadDocument
+        className="text-xl font-black text-primary ">
         MyNextJob
       </Link>
 

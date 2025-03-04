@@ -154,7 +154,7 @@ export default function ResumeBuilder({ initialContent }) {
       className="space-y-4">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
         <h1 className="font-bold gradient-title text-5xl md:text-6xl text-primary">
-          Resume Builder
+          AI Resume Builder
         </h1>
         <div className="space-x-2">
           <Button

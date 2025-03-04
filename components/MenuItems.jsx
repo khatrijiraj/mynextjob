@@ -16,8 +16,8 @@ const menuItems = [
   { href: "/insights", icon: TrendingUp, label: "AI Industry Insights" },
   { href: "/interview", icon: Bot, label: "AI Mock Interview" },
   { href: "/quiz", icon: GalleryThumbnails, label: "AI Mock Quiz" },
-  { href: "/cover", icon: MailCheck, label: "AI Cover Letter" },
   { href: "/resume", icon: FileCode2, label: "AI Resume Builder" },
+  { href: "/cover", icon: MailCheck, label: "AI Cover Letter" },
   { href: "/applications", icon: ListChecks, label: "Job Application Manager" },
 ];
 
@@ -32,6 +32,7 @@ const MenuItems = () => {
           <DropdownMenuItem key={href} asChild>
             <Link
               href={href}
+              reloadDocument
               className={`flex items-center gap-3 p-2 transition hover:cursor-pointer ${
                 isActive ? "bg-primary text-white" : ""
               }`}>
