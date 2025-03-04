@@ -12,15 +12,13 @@ import {
 import { Sparkles, ChevronDown } from "lucide-react";
 import { checkUser } from "@/lib/checkUser";
 import MenuItems from "./MenuItems"; // adjust the path as needed
+import Image from "next/image";
 
 const Header = async () => {
   await checkUser();
   return (
     <header className="bg-background container flex justify-between items-center px-4 h-16 fixed top-0 w-full border-b z-50 shadow-md">
-      <Link
-        href="/"
-        reloadDocument
-        className="text-xl font-black text-primary ">
+      <Link href="/" reloadDocument className="text-xl font-bold text-primary">
         MyNextJob
       </Link>
 

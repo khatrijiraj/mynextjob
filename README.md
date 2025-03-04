@@ -32,6 +32,130 @@
 - **Database Integration:** Neon PostgreSQL Managed via Prisma with migration scripts and a robust schema.
 - **API Routes & Business Logic:** Centralized in the `actions` folder for functionalities such as generating cover letters, insights, quizzes, and managing user data.
 
+## Technologies Used
+
+- Next.js: React framework for server-side rendering and static site generation.
+- ReactJS & JavaScript/JSX: Core languages for building the user interface and application logic.
+- ShadCN: A modern design system for building sleek, reusable UI components.
+- Clerk: Secure user authentication and session management.
+- Prisma: Modern ORM for efficient database management.
+- Neon & PostgreSQL: Scalable cloud database solution with PostgreSQL.
+- Tailwind CSS: Utility-first CSS framework for rapid UI development.
+- Node & npm: Runtime and package manager for backend services.
+- Inngest: Event-driven workflows for integrating asynchronous operations.
+- Google Gemini: Advanced AI capabilities powering intelligent features.
+- Vercel: Seamless deployment and hosting platform.
+- Git & GitHub: Version control and collaborative development.
+
+## Installation & Setup
+
+### Prerequisites
+
+- **Node.js** (v16+ recommended)
+- **npm** / **yarn** / **pnpm**
+- A supported database (configured via Prisma)
+
+### Steps
+
+1. **Clone the Repository:**
+
+   ```bash
+   git clone https://github.com/khatrijiraj/mynextjob.git
+   cd mynextjob
+   ```
+
+2. **Install Dependencies:**
+
+   Using npm:
+
+   ```bash
+   npm install --legacy-peer-deps
+   ```
+
+   Or with yarn:
+
+   ```bash
+   yarn install
+   ```
+
+3. **Configure Environment Variables:**
+
+   Create a `.env` file in the project root
+
+   ```env
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+   CLERK_SECRET_KEY=
+   NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+   NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+   NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/onboarding
+   NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/onboarding
+   NEON_PASSWORD=
+   DATABASE_URL=
+   GEMINI_API_KEY=
+   ```
+
+## Running the Project
+
+### Development Mode
+
+Start the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
+
+### Production Build
+
+Build and start the production server:
+
+```bash
+npm run build
+npm start
+```
+
+## Deployment
+
+The simplest way to deploy is using [Vercel](https://vercel.com). Connect your GitHub repository to Vercel and the platform will handle the rest. For further details, check the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying).
+
+## Contributing
+
+Contributions are highly welcome! To get started:
+
+1. **Fork the repository.**
+
+2. **Create a new branch** for your feature or bugfix:
+
+   ```bash
+   git checkout -b feature/YourFeature
+   ```
+
+3. **Commit your changes** with clear and descriptive messages:
+
+   ```bash
+   git commit -m "Add feature XYZ"
+   ```
+
+4. **Push to your branch**:
+
+   ```bash
+   git push origin feature/YourFeature
+   ```
+
+5. **Open a pull request** for review.
+
+## Contact
+
+For any questions, feedback, or support, please reach out via:
+
+- **GitHub Issues:** [Submit an Issue](https://github.com/khatrijiraj/mynextjob/issues)
+- **Email:** [khatriraj030@gmail.com](mailto:khatriraj030@gmail.com)
+
 ## Project Structure
 
 ```bash
@@ -212,130 +336,15 @@ mynextjob
 │  │  └─ migration_lock.toml
 │  └─ schema.prisma
 ├─ public
+│  ├─ about.txt
+│  ├─ android-chrome-192x192.png
+│  ├─ android-chrome-512x512.png
+│  ├─ apple-touch-icon.png
+│  ├─ favicon-16x16.png
+│  ├─ favicon-32x32.png
+│  ├─ favicon.ico
+│  └─ site.webmanifest
 ├─ README.md
 └─ tailwind.config.mjs
+
 ```
-
-## Technologies Used
-
-- Next.js: React framework for server-side rendering and static site generation.
-- ReactJS & JavaScript/JSX: Core languages for building the user interface and application logic.
-- ShadCN: A modern design system for building sleek, reusable UI components.
-- Clerk: Secure user authentication and session management.
-- Prisma: Modern ORM for efficient database management.
-- Neon & PostgreSQL: Scalable cloud database solution with PostgreSQL.
-- Tailwind CSS: Utility-first CSS framework for rapid UI development.
-- Node & npm: Runtime and package manager for backend services.
-- Inngest: Event-driven workflows for integrating asynchronous operations.
-- Google Gemini: Advanced AI capabilities powering intelligent features.
-- Vercel: Seamless deployment and hosting platform.
-- Git & GitHub: Version control and collaborative development.
-
-## Installation & Setup
-
-### Prerequisites
-
-- **Node.js** (v16+ recommended)
-- **npm** / **yarn** / **pnpm**
-- A supported database (configured via Prisma)
-
-### Steps
-
-1. **Clone the Repository:**
-
-   ```bash
-   git clone https://github.com/khatrijiraj/mynextjob.git
-   cd mynextjob
-   ```
-
-2. **Install Dependencies:**
-
-   Using npm:
-
-   ```bash
-   npm install --legacy-peer-deps
-   ```
-
-   Or with yarn:
-
-   ```bash
-   yarn install
-   ```
-
-3. **Configure Environment Variables:**
-
-   Create a `.env` file in the project root
-
-   ```env
-   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
-   CLERK_SECRET_KEY=
-   NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
-   NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-   NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/onboarding
-   NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/onboarding
-   NEON_PASSWORD=
-   DATABASE_URL=
-   GEMINI_API_KEY=
-   ```
-
-## Running the Project
-
-### Development Mode
-
-Start the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
-
-### Production Build
-
-Build and start the production server:
-
-```bash
-npm run build
-npm start
-```
-
-## Deployment
-
-The simplest way to deploy is using [Vercel](https://vercel.com). Connect your GitHub repository to Vercel and the platform will handle the rest. For further details, check the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying).
-
-## Contributing
-
-Contributions are highly welcome! To get started:
-
-1. **Fork the repository.**
-
-2. **Create a new branch** for your feature or bugfix:
-
-   ```bash
-   git checkout -b feature/YourFeature
-   ```
-
-3. **Commit your changes** with clear and descriptive messages:
-
-   ```bash
-   git commit -m "Add feature XYZ"
-   ```
-
-4. **Push to your branch**:
-
-   ```bash
-   git push origin feature/YourFeature
-   ```
-
-5. **Open a pull request** for review.
-
-## Contact
-
-For any questions, feedback, or support, please reach out via:
-
-- **GitHub Issues:** [Submit an Issue](https://github.com/khatrijiraj/mynextjob/issues)
-- **Email:** [khatriraj030@gmail.com](mailto:khatriraj030@gmail.com)

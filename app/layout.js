@@ -7,9 +7,14 @@ import { Toaster } from "@/components/ui/sonner";
 import AppLoader from "@/components/AppLoader";
 
 export const metadata = {
-  title: "mynextjob",
+  title: "MyNextJob",
   description: "AI-POWERED CAREER ASSISTANCE",
   author: "@khatrijiraj",
+  icons: {
+    icon: "/favicon.ico", // Standard favicon
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png", // Apple Touch icon for iOS
+  },
 };
 
 export default function RootLayout({ children }) {
