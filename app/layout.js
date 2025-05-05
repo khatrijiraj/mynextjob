@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import { ClerkThemeProvider } from "@/components/clerk-theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import AppLoader from "@/components/AppLoader";
-
+import { Analytics } from "@vercel/analytics/react";
 export const metadata = {
   title: "MyNextJob",
   description: "AI-POWERED CAREER ASSISTANCE",
@@ -39,7 +39,9 @@ export default function RootLayout({ children }) {
             {/* Fixed header */}
             <AppLoader>
               <Header />
-              <main>{children}</main>
+              <main>
+                {children} <Analytics />
+              </main>
               <Footer />
               <Toaster richColors />
             </AppLoader>
